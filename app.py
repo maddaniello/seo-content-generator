@@ -1,52 +1,4 @@
-# Tips per migliorare i risultati
-        with st.expander("💡 Tips per risultati migliori"):
-            st.markdown("""
-            **📋 Content Brief efficace:**
-            - Specifica il target audience dettagliato
-            - Includi keyword principali e secondarie
-            - Definisci struttura H1, H2, H3
-            - Indica scopo e obiettivi specifici
-            
-            **🎯 Strategia vs Competitor:**
-            - Analizza cosa manca nei contenuti esistenti
-            - Specifica elementi differenzianti
-            - Indica fonti uniche da citare
-            
-            **👥 Target Audience:**
-            - Età, professione, problematiche
-            - Livello di conoscenza del topic
-            - Dove si informano abitualmente
-            
-            **📢 Call to Action:**
-            - 2-3 CTA diverse per articolo
-            - CTA primaria e secondarie
-            - Posizionamento strategico (inizio, metà, fine)
-            
-            **🔍 Meta Tags:**
-            - Title: max 60 caratteri, include keyword principale
-            - Description: max 160 caratteri, invito all'azione
-            
-            **🏆 E-E-A-T Specifico:**
-            - Fonti autorevoli del settore
-            - Certificazioni o credenziali
-            - Dati statistici recenti
-            - Case study e testimonianze
-            """)
-        
-        # Esempio pratico
-        with st.expander("📖 Esempio Pratico Completo"):
-            st.markdown("""
-            **Intento**: Informativo - Come sospendere rate mutuo
-            **Obiettivo**: Educare lettori e generare contatti qualificati
-            **Target**: Proprietari casa 30-50 anni, difficoltà economiche temporanee
-            **Vs Competitor**: Più esempi pratici, infografiche, normative aggiornate
-            **E-E-A-T**: Citare CONSAP, Banca d'Italia, avvocati specializzati
-            **CTA**: "Contatta esperto TassoMutuo", "Calcola rata post-sospensione"
-            **Meta Title**: "Sospensione Rate Mutuo 2025: Guida Completa | TassoMutuo"
-            **Meta Desc**: "Scopri come sospendere le rate del mutuo: requisiti, procedure e conseguenze. Guida aggiornata 2025 con esempi pratici."
-            """)
-        
-        #import streamlit as st
+import streamlit as st
 import openai
 from openai import OpenAI
 import re
@@ -343,6 +295,17 @@ ALLA FINE DELL'ARTICOLO, AGGIUNGI SEMPRE UNA SEZIONE:
         bullet_points = content.count('- ')
         numbered_lists = len(re.findall(r'\d+\. ', content))
         
+        return {
+            'words': words,
+            'characters': characters,
+            'characters_no_spaces': characters_no_spaces,
+            'h1_count': h1_count,
+            'h2_count': h2_count,
+            'h3_count': h3_count,
+            'bullet_points': bullet_points,
+            'numbered_lists': numbered_lists
+        }
+    
     def analyze_seo_content(self, content, target_keywords=""):
         """Analizza il contenuto per metriche SEO"""
         if not content:
@@ -544,13 +507,6 @@ def main():
             )
         
         # Store delle configurazioni avanzate
-        if 'model_choice' not in st.session_state:
-            st.session_state.model_choice = model_choice
-        if 'temperature' not in st.session_state:
-            st.session_state.temperature = temperature
-        if 'max_tokens' not in st.session_state:
-            st.session_state.max_tokens = max_tokens
-        
         st.session_state.model_choice = model_choice
         st.session_state.temperature = temperature
         st.session_state.max_tokens = max_tokens
@@ -617,173 +573,7 @@ def main():
             - ⚠️ Meta tags (opzionali ma consigliati)
             - ⚠️ Tone of voice e contenuto esempio
             """)
-    
-    # Sidebar per configurazione
-    with st.sidebar:
-        st.header("🔧 Configurazione")
-        
-        # API Key OpenAI
-        api_key = st.text_input(
-            "OpenAI API Key",
-            type="password",
-            help="Inserisci la tua chiave API OpenAI"
-        )
-        
-        if not api_key:
-            st.warning("⚠️ Inserisci la tua API Key OpenAI per continuare")
-            st.markdown("🔗 [Ottieni la tua API Key](https://platform.openai.com/api-keys)")
-        
-        # Configurazioni avanzate
-        with st.expander("⚙️ Configurazioni Avanzate"):
-            model_choice = st.selectbox(
-                "Modello OpenAI",
-                ["gpt-4-turbo-preview", "gpt-4", "gpt-3.5-turbo"],
-                index=0,
-                help="Scegli il modello di AI da utilizzare"
-            )
-            
-            temperature = st.slider(
-                "Creatività (Temperature)",
-                min_value=0.0,
-                max_value=1.0,
-                value=0.3,
-                step=0.1,
-                help="0 = più coerente, 1 = più creativo"
-            )
-            
-            max_tokens = st.slider(
-                "Lunghezza massima",
-                min_value=1000,
-                max_value=4000,
-                value=4000,
-                step=500,
-                help="Numero massimo di token per la risposta"
-            )
-        
-        # Tips per migliorare i risultati
-        with st.expander("💡 Tips per risultati migliori"):
-            st.markdown("""
-            **Content Brief efficace:**
-            - Specifica il target audience
-            - Includi keyword principali
-            - Definisci la lunghezza desiderata
-            - Indica lo scopo del contenuto
-            
-            **Tone of Voice:**
-            - Breve estratto rappresentativo del tuo stile
-            - Focus su tono e linguaggio utilizzato
-            
-            **Contenuto di Esempio:**
-            - Articolo completo che ti piace (500+ parole)
-            - L'AI studierà struttura, approccio e metodologia
-            - Più dettagliato = risultati migliori
-            
-            **Link Interni:**
-            - Usa formato: [Testo](URL)
-            - Specifica dove inserirli nel brief
-            - Massimo 5-7 link per articolo
-            """)
-        
-        # Analisi del contenuto di esempio
-        if 'content_example' in locals() and content_example:
-            with st.expander("📊 Analisi Contenuto di Esempio"):
-                words = len(content_example.split())
-                chars = len(content_example)
-                h_tags = content_example.count('#')
-                lists = content_example.count('-') + content_example.count('*')
-                
-                col1, col2, col3, col4 = st.columns(4)
-                with col1:
-                    st.metric("Parole", words)
-                with col2:
-                    st.metric("Caratteri", chars)
-                with col3:
-                    st.metric("Titoli H", h_tags)
-                with col4:
-                    st.metric("Liste", lists)
-                
-                if words > 500:
-                    st.success("✅ Contenuto ottimo per l'analisi dello stile")
-                elif words > 200:
-                    st.warning("⚠️ Contenuto buono, ma più testo migliorerebbe l'analisi")
-                else:
-                    st.error("❌ Contenuto troppo breve per un'analisi efficace")
-        
-        # Store delle configurazioni avanzate
-        if 'model_choice' not in st.session_state:
-            st.session_state.model_choice = model_choice
-        if 'temperature' not in st.session_state:
-            st.session_state.temperature = temperature
-        if 'max_tokens' not in st.session_state:
-            st.session_state.max_tokens = max_tokens
-        
-        st.session_state.model_choice = model_choice
-        st.session_state.temperature = temperature
-        st.session_state.max_tokens = max_tokens
-        
-        # Tips per migliorare i risultati
-        with st.expander("💡 Tips per risultati migliori"):
-            st.markdown("""
-            **📋 Content Brief efficace:**
-            - Specifica il target audience dettagliato
-            - Includi keyword principali e secondarie
-            - Definisci struttura H1, H2, H3
-            - Indica scopo e obiettivi specifici
-            
-            **🎯 Strategia vs Competitor:**
-            - Analizza cosa manca nei contenuti esistenti
-            - Specifica elementi differenzianti
-            - Indica fonti uniche da citare
-            
-            **👥 Target Audience:**
-            - Età, professione, problematiche
-            - Livello di conoscenza del topic
-            - Dove si informano abitualmente
-            
-            **📢 Call to Action:**
-            - 2-3 CTA diverse per articolo
-            - CTA primaria e secondarie
-            - Posizionamento strategico (inizio, metà, fine)
-            
-            **🔍 Meta Tags:**
-            - Title: max 60 caratteri, include keyword principale
-            - Description: max 160 caratteri, invito all'azione
-            
-            **🏆 E-E-A-T Specifico:**
-            - Fonti autorevoli del settore
-            - Certificazioni o credenziali
-            - Dati statistici recenti
-            - Case study e testimonianze
-            """)
-        
-        # Esempio pratico
-        with st.expander("📖 Esempio Pratico Completo"):
-            st.markdown("""
-            **Intento**: Informativo - Come sospendere rate mutuo
-            **Obiettivo**: Educare lettori e generare contatti qualificati
-            **Target**: Proprietari casa 30-50 anni, difficoltà economiche temporanee
-            **Vs Competitor**: Più esempi pratici, infografiche, normative aggiornate
-            **E-E-A-T**: Citare CONSAP, Banca d'Italia, avvocati specializzati
-            **CTA**: "Contatta esperto TassoMutuo", "Calcola rata post-sospensione"
-            **Meta Title**: "Sospensione Rate Mutuo 2025: Guida Completa | TassoMutuo"
-            **Meta Desc**: "Scopri come sospendere le rate del mutuo: requisiti, procedure e conseguenze. Guida aggiornata 2025 con esempi pratici."
-            """)
-        
-        # Checklist pre-generazione
-        with st.expander("✅ Checklist Pre-Generazione"):
-            st.markdown("""
-            Prima di generare, verifica di aver inserito:
-            - ✅ Nome brand e URL sito
-            - ✅ Content brief dettagliato
-            - ✅ Intento di ricerca e obiettivo
-            - ✅ Target audience specifico
-            - ✅ Strategia vs competitor
-            - ✅ Suggerimenti E-E-A-T del settore
-            - ✅ Call to action strategiche
-            - ⚠️ Meta tags (opzionali ma consigliati)
-            - ⚠️ Tone of voice e contenuto esempio
-            """)
-    
+
     # Form principale
     if api_key:
         st.header("📋 Informazioni del Progetto")
@@ -967,7 +757,7 @@ def main():
                         st.error("❌ Errore nella generazione del contenuto:")
                         for error in result:
                             st.error(f"• {error}")
-    
+
     # Mostra il contenuto generato
     if 'generated_content' in st.session_state:
         st.header("📄 Contenuto Generato")
@@ -1217,66 +1007,8 @@ def main():
                     with col_right:
                         st.markdown("**🆕 Contenuto Generato**")
                         generated_preview = st.session_state.generated_content[:1000] + "..." if len(st.session_state.generated_content) > 1000 else st.session_state.generated_content
-                        st.markdown(generated_preview)_example', '')
-                if example_content:
-                    example_stats = st.session_state.content_generator.get_content_stats(example_content)
-                    generated_stats = stats
-                    
-                    st.markdown("#### 📊 Confronto Statistiche")
-                    
-                    comparison_data = {
-                        "Metrica": ["Parole", "Caratteri", "H1", "H2", "H3", "Elenchi puntati"],
-                        "Esempio": [
-                            example_stats.get('words', 0),
-                            example_stats.get('characters', 0),
-                            example_stats.get('h1_count', 0),
-                            example_stats.get('h2_count', 0),
-                            example_stats.get('h3_count', 0),
-                            example_stats.get('bullet_points', 0)
-                        ],
-                        "Generato": [
-                            generated_stats.get('words', 0),
-                            generated_stats.get('characters', 0),
-                            generated_stats.get('h1_count', 0),
-                            generated_stats.get('h2_count', 0),
-                            generated_stats.get('h3_count', 0),
-                            generated_stats.get('bullet_points', 0)
-                        ]
-                    }
-                    
-                    st.table(comparison_data)
-                    
-                    # Analisi della somiglianza strutturale
-                    st.markdown("#### 🎯 Analisi Strutturale")
-                    
-                    # Rapporto parole simile
-                    word_ratio = generated_stats.get('words', 0) / max(example_stats.get('words', 1), 1)
-                    if 0.8 <= word_ratio <= 1.2:
-                        st.success(f"✅ Lunghezza simile all'esempio (rapporto: {word_ratio:.2f})")
-                    elif word_ratio > 1.2:
-                        st.info(f"📈 Contenuto più lungo dell'esempio (rapporto: {word_ratio:.2f})")
-                    else:
-                        st.warning(f"📉 Contenuto più breve dell'esempio (rapporto: {word_ratio:.2f})")
-                    
-                    # Struttura titoli
-                    if generated_stats.get('h2_count', 0) >= example_stats.get('h2_count', 0):
-                        st.success("✅ Struttura dei titoli ben sviluppata")
-                    else:
-                        st.warning("⚠️ Potrebbe beneficiare di più sottosezioni")
-                    
-                    # Confronto visivo affiancato
-                    st.markdown("#### 👥 Confronto Visivo")
-                    col_left, col_right = st.columns(2)
-                    
-                    with col_left:
-                        st.markdown("**📄 Contenuto di Esempio**")
-                        st.markdown(example_content[:1000] + "..." if len(example_content) > 1000 else example_content)
-                    
-                    with col_right:
-                        st.markdown("**🆕 Contenuto Generato**")
-                        generated_preview = st.session_state.generated_content[:1000] + "..." if len(st.session_state.generated_content) > 1000 else st.session_state.generated_content
                         st.markdown(generated_preview)
-        
+
         # Sezione download
         st.header("💾 Download")
         
