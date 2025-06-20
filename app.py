@@ -543,6 +543,123 @@ def main():
                 help="Numero massimo di token per la risposta"
             )
         
+        # Store delle configurazioni avanzate
+        if 'model_choice' not in st.session_state:
+            st.session_state.model_choice = model_choice
+        if 'temperature' not in st.session_state:
+            st.session_state.temperature = temperature
+        if 'max_tokens' not in st.session_state:
+            st.session_state.max_tokens = max_tokens
+        
+        st.session_state.model_choice = model_choice
+        st.session_state.temperature = temperature
+        st.session_state.max_tokens = max_tokens
+        
+        # Tips per migliorare i risultati
+        with st.expander("💡 Tips per risultati migliori"):
+            st.markdown("""
+            **📋 Content Brief efficace:**
+            - Specifica il target audience dettagliato
+            - Includi keyword principali e secondarie
+            - Definisci struttura H1, H2, H3
+            - Indica scopo e obiettivi specifici
+            
+            **🎯 Strategia vs Competitor:**
+            - Analizza cosa manca nei contenuti esistenti
+            - Specifica elementi differenzianti
+            - Indica fonti uniche da citare
+            
+            **👥 Target Audience:**
+            - Età, professione, problematiche
+            - Livello di conoscenza del topic
+            - Dove si informano abitualmente
+            
+            **📢 Call to Action:**
+            - 2-3 CTA diverse per articolo
+            - CTA primaria e secondarie
+            - Posizionamento strategico (inizio, metà, fine)
+            
+            **🔍 Meta Tags:**
+            - Title: max 60 caratteri, include keyword principale
+            - Description: max 160 caratteri, invito all'azione
+            
+            **🏆 E-E-A-T Specifico:**
+            - Fonti autorevoli del settore
+            - Certificazioni o credenziali
+            - Dati statistici recenti
+            - Case study e testimonianze
+            """)
+        
+        # Esempio pratico
+        with st.expander("📖 Esempio Pratico Completo"):
+            st.markdown("""
+            **Intento**: Informativo - Come sospendere rate mutuo
+            **Obiettivo**: Educare lettori e generare contatti qualificati
+            **Target**: Proprietari casa 30-50 anni, difficoltà economiche temporanee
+            **Vs Competitor**: Più esempi pratici, infografiche, normative aggiornate
+            **E-E-A-T**: Citare CONSAP, Banca d'Italia, avvocati specializzati
+            **CTA**: "Contatta esperto TassoMutuo", "Calcola rata post-sospensione"
+            **Meta Title**: "Sospensione Rate Mutuo 2025: Guida Completa | TassoMutuo"
+            **Meta Desc**: "Scopri come sospendere le rate del mutuo: requisiti, procedure e conseguenze. Guida aggiornata 2025 con esempi pratici."
+            """)
+        
+        # Checklist pre-generazione
+        with st.expander("✅ Checklist Pre-Generazione"):
+            st.markdown("""
+            Prima di generare, verifica di aver inserito:
+            - ✅ Nome brand e URL sito
+            - ✅ Content brief dettagliato
+            - ✅ Intento di ricerca e obiettivo
+            - ✅ Target audience specifico
+            - ✅ Strategia vs competitor
+            - ✅ Suggerimenti E-E-A-T del settore
+            - ✅ Call to action strategiche
+            - ⚠️ Meta tags (opzionali ma consigliati)
+            - ⚠️ Tone of voice e contenuto esempio
+            """)
+    
+    # Sidebar per configurazione
+    with st.sidebar:
+        st.header("🔧 Configurazione")
+        
+        # API Key OpenAI
+        api_key = st.text_input(
+            "OpenAI API Key",
+            type="password",
+            help="Inserisci la tua chiave API OpenAI"
+        )
+        
+        if not api_key:
+            st.warning("⚠️ Inserisci la tua API Key OpenAI per continuare")
+            st.markdown("🔗 [Ottieni la tua API Key](https://platform.openai.com/api-keys)")
+        
+        # Configurazioni avanzate
+        with st.expander("⚙️ Configurazioni Avanzate"):
+            model_choice = st.selectbox(
+                "Modello OpenAI",
+                ["gpt-4-turbo-preview", "gpt-4", "gpt-3.5-turbo"],
+                index=0,
+                help="Scegli il modello di AI da utilizzare"
+            )
+            
+            temperature = st.slider(
+                "Creatività (Temperature)",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.3,
+                step=0.1,
+                help="0 = più coerente, 1 = più creativo"
+            )
+            
+            max_tokens = st.slider(
+                "Lunghezza massima",
+                min_value=1000,
+                max_value=4000,
+                value=4000,
+                step=500,
+                help="Numero massimo di token per la risposta"
+            )
+        
         # Tips per migliorare i risultati
         with st.expander("💡 Tips per risultati migliori"):
             st.markdown("""
@@ -603,6 +720,69 @@ def main():
         st.session_state.model_choice = model_choice
         st.session_state.temperature = temperature
         st.session_state.max_tokens = max_tokens
+        
+        # Tips per migliorare i risultati
+        with st.expander("💡 Tips per risultati migliori"):
+            st.markdown("""
+            **📋 Content Brief efficace:**
+            - Specifica il target audience dettagliato
+            - Includi keyword principali e secondarie
+            - Definisci struttura H1, H2, H3
+            - Indica scopo e obiettivi specifici
+            
+            **🎯 Strategia vs Competitor:**
+            - Analizza cosa manca nei contenuti esistenti
+            - Specifica elementi differenzianti
+            - Indica fonti uniche da citare
+            
+            **👥 Target Audience:**
+            - Età, professione, problematiche
+            - Livello di conoscenza del topic
+            - Dove si informano abitualmente
+            
+            **📢 Call to Action:**
+            - 2-3 CTA diverse per articolo
+            - CTA primaria e secondarie
+            - Posizionamento strategico (inizio, metà, fine)
+            
+            **🔍 Meta Tags:**
+            - Title: max 60 caratteri, include keyword principale
+            - Description: max 160 caratteri, invito all'azione
+            
+            **🏆 E-E-A-T Specifico:**
+            - Fonti autorevoli del settore
+            - Certificazioni o credenziali
+            - Dati statistici recenti
+            - Case study e testimonianze
+            """)
+        
+        # Esempio pratico
+        with st.expander("📖 Esempio Pratico Completo"):
+            st.markdown("""
+            **Intento**: Informativo - Come sospendere rate mutuo
+            **Obiettivo**: Educare lettori e generare contatti qualificati
+            **Target**: Proprietari casa 30-50 anni, difficoltà economiche temporanee
+            **Vs Competitor**: Più esempi pratici, infografiche, normative aggiornate
+            **E-E-A-T**: Citare CONSAP, Banca d'Italia, avvocati specializzati
+            **CTA**: "Contatta esperto TassoMutuo", "Calcola rata post-sospensione"
+            **Meta Title**: "Sospensione Rate Mutuo 2025: Guida Completa | TassoMutuo"
+            **Meta Desc**: "Scopri come sospendere le rate del mutuo: requisiti, procedure e conseguenze. Guida aggiornata 2025 con esempi pratici."
+            """)
+        
+        # Checklist pre-generazione
+        with st.expander("✅ Checklist Pre-Generazione"):
+            st.markdown("""
+            Prima di generare, verifica di aver inserito:
+            - ✅ Nome brand e URL sito
+            - ✅ Content brief dettagliato
+            - ✅ Intento di ricerca e obiettivo
+            - ✅ Target audience specifico
+            - ✅ Strategia vs competitor
+            - ✅ Suggerimenti E-E-A-T del settore
+            - ✅ Call to action strategiche
+            - ⚠️ Meta tags (opzionali ma consigliati)
+            - ⚠️ Tone of voice e contenuto esempio
+            """)
     
     # Form principale
     if api_key:
