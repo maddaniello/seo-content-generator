@@ -1118,8 +1118,8 @@ def main():
     st.markdown(
         """
         <div style='text-align: center; color: #666; margin-top: 50px;'>
-            <h4>🚀 SEO Content Generator Pro</h4>
-            <p>🔧 Creato con Streamlit | 🤖 Powered by OpenAI GPT-4 | 📊 Ottimizzato per gli standard E-E-A-T di Google</p>
+            <h4>🚀 SEO Content Generator Pro - Crea contenuti SEO Ottimizzati EEAT</h4>
+            <p>Sviluppato da Daniele Pisciottano e il suo amico Claude 🦕</p>
             <p><strong>Funzionalità principali:</strong></p>
             <p>✅ Analisi SEO completa | ✅ Meta tags automatici | ✅ Strategia competitor | ✅ Target specifico | ✅ CTA integrate</p>
             <p style='font-size: 0.8em; margin-top: 20px;'>
